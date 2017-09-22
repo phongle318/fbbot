@@ -218,6 +218,8 @@ func (b *Bot) Send(r User, m interface{}) error {
 		return b.sendGenericMessage(r, m)
 	case *QuickRepliesMessage:
 		return b.sendQuickRepliesMessage(r, m)
+	case *ReceiptMessage:
+		return b.sendReceiptMessage(r, m)
 	default:
 		return errors.New("unknown message type")
 	}
@@ -330,6 +332,38 @@ func (b *Bot) sendQuickRepliesMessage(r User, m *QuickRepliesMessage) error {
 	_, err := b.httppost(SendAPIEndpoint, data)
 	if err != nil {
 		b.Logger.Errorf("Failed to send message. Error: %s\nData:%#v", err.Error(), data)
+		return err
+	}
+
+	return nil
+}
+
+func (b *Bot) sendReceiptMessage(r User, m *ReceiptMessage) error {
+	payload := make(map[string]interface{})
+	payload["template_type"] = "receipt"
+	payload["recipient_name"] = m.RecipientName
+	payload["currency"] = m.Currency
+	payload["payment_method"] = m.PaymentMethod
+	payload["order_url"] = m.OrderURL
+	payload["order_number"] = m.OrderNumber
+	payload["timestamp"] = "1428444852"
+	payload["address"] = m.Address
+	payload["summary"] = m.Summary
+	payload["adjustments"] = m.Adjustments
+	payload["elements"] = m.Items
+
+	attachment := make(map[string]interface{})
+	attachment["type"] = "template"
+	attachment["payload"] = payload
+
+	data := make(map[string]interface{})
+	// data["notification_type"] = m.Noti
+	data["recipient"] = map[string]string{"id": r.ID}
+	data["message"] = map[string]interface{}{"attachment": attachment}
+
+	_, err := b.httppost(SendAPIEndpoint, data)
+	if err != nil {
+		b.Logger.WithFields(logrus.Fields{"data": data, "error": err}).Error("Failed to send message")
 		return err
 	}
 

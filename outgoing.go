@@ -206,67 +206,67 @@ func NewReceiptMessage() *ReceiptMessage {
 type Item struct {
 	// Title is item title
 	// required
-	Title string
+	Title string `json:"title"`
 
 	// Subtile of item
 	// not required
-	Subtitle string
+	Subtitle string `json:"subtitle"`
 
 	// Quantity of item
 	// not required
-	Quantity float64
+	Quantity float64 `json:"quantity"`
 
 	// Price of item
 	// not required
-	Price float64
+	Price float64 `json:"price"`
 
 	// Currency of item
 	// not required
-	Currency string
+	Currency string `json:"currency"`
 
 	// ImageURL is image URL of item
 	// not required
-	ImageURL string
+	ImageURL string `json:"image_url"`
 }
 
 // Shipping address
 type Address struct {
 	// Street1 Street Address, line 1
-	Street1 string
+	Street1 string `json:"street_1"`
 
 	// Street2 Street Address, line 2
-	Street2 string
+	Street2 string `json:"street_2"`
 
 	// City
-	City string
+	City string `json:"city"`
 
 	// PostalCode Postal code
-	PostalCode string
+	PostalCode string `json:"postal_code"`
 
 	// State is state abbrevation
-	State string
+	State string `json:"state"`
 
 	// Country is Two-letter country abbreviation
-	Country string
+	Country string `json:"country"`
 }
 
 // Summary is Payment summary
 type Summary struct {
 	// Subtotal
 	// not required
-	Subtotal float64
+	Subtotal float64 `json:"subtotal"`
 
 	// ShippingCost is cost of shipping
 	// not required
-	ShippingCost float64
+	ShippingCost float64 `json:"shipping_cost"`
 
 	// TotalTax is total tax
 	// not required
-	TotalTax float64
+	TotalTax float64 `json:"total_tax"`
 
 	// TotalCost is total cost
 	// required
-	TotalCost float64
+	TotalCost float64 `json:"total_cost"`
 }
 
 // Adjustment is payment adjustment.
