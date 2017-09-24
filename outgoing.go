@@ -172,7 +172,8 @@ type ReceiptMessage struct {
 	PaymentMethod string
 
 	// Timestamp is timestamp of order
-	// not required
+	// TIME MUST BE IN SECONDS
+	// required
 	Timestamp string
 
 	// OrderURL is URL of order

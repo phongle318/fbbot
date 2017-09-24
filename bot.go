@@ -346,7 +346,8 @@ func (b *Bot) sendReceiptMessage(r User, m *ReceiptMessage) error {
 	payload["payment_method"] = m.PaymentMethod
 	payload["order_url"] = m.OrderURL
 	payload["order_number"] = m.OrderNumber
-	payload["timestamp"] = "1428444852"
+
+	payload["timestamp"] = m.Timestamp
 	payload["address"] = m.Address
 	payload["summary"] = m.Summary
 	payload["adjustments"] = m.Adjustments
@@ -360,7 +361,6 @@ func (b *Bot) sendReceiptMessage(r User, m *ReceiptMessage) error {
 	// data["notification_type"] = m.Noti
 	data["recipient"] = map[string]string{"id": r.ID}
 	data["message"] = map[string]interface{}{"attachment": attachment}
-
 	_, err := b.httppost(SendAPIEndpoint, data)
 	if err != nil {
 		b.Logger.WithFields(logrus.Fields{"data": data, "error": err}).Error("Failed to send message")
